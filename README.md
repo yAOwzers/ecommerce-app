@@ -18,3 +18,11 @@ Our expectations are below:
 4. Propose future enhancement(s) on the current solution
 5. Explain the implemented algorithm if there is any
 6. Use docker for deployment, if possible
+
+## Distributed Tracing
+Using Micrometer and Zipkin
+`docker run -d -p 9411 openzipkin/zipkin:latest`
+
+## Authentication
+'docker run -p 8181:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:21.0.1 start-dev`
+
