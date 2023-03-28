@@ -39,7 +39,7 @@ public class OrderService {
             .map(OrderLineItems::getSkuCode)
             .toList();
 
-    // call inventory service, and place order if product is in stock
+    // separate into a consumer
     InventoryResponse[] inventoryResponseArray = webClientBuilder.build().get()
             .uri("http://inventory-service/api/inventory",
                     uriBuilder -> uriBuilder.queryParam("skuCode", skuCodes).build())
@@ -52,12 +52,14 @@ public class OrderService {
     // if result is present,
     if (allProductsInStock) {
       orderRepository.save(order);
-      return "Order Placed Successfully.";
+      // can send a notification
+      return "Order Placed Successfully."; // need to send a redirect to the URL
     } else {
       throw new IllegalAccessException("Product is not in stock, try again another time");
     }
 
   }
+
 
   private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
     OrderLineItems orderLineItems = new OrderLineItems();

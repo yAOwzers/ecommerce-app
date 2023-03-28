@@ -34,8 +34,8 @@ public class OrderController {
   }
 
   // time out error
-
   public CompletableFuture<String> fallbackMethod(OrderRequest orderRequest, RuntimeException runtimeException) {
     return CompletableFuture.supplyAsync(() -> "Oops! Something went wrong, please order after some time!");
   }
+
 }

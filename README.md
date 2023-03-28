@@ -1,7 +1,10 @@
 # ecommerce-app
 use of micro-services
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 ## Distributed Tracing
 Using Micrometer and Zipkin
 `docker run -d -p 9411 openzipkin/zipkin:latest`
