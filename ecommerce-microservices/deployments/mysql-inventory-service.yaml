@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-inventory-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-inventory-service
+  template:
+    metadata:
+      labels:
+        app: mysql-inventory-service
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.0.29
+          args:
+            - "--datadir=/var/lib/mysql-inventory"
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-inventory-credentials
+                  key: password
+            - name: MYSQL_DATABASE
+              value: inventory-service
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
+
+---
+
+# Service
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-inventory-service
+spec:
+  selector:
+    app: mysql-inventory-service
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP
+
+---
+
+# PersistentVolumeClaim
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

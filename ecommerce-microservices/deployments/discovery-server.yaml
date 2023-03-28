@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: discovery-server-config
+data:
+  application.properties: |
+    eureka.instance.hostname=${HOSTNAME}
+    eureka.client.register-with-eureka=false
+    eureka.client.fetch-registry=false
+    server.port=8761
+    eureka.username=${EUREKA_USERNAME:eureka}
+    eureka.password=${EUREKA_PASSWORD:password}
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: discovery-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discovery-server
+  template:
+    metadata:
+      labels:
+        app: discovery-server
+    spec:
+      containers:
+        - name: discovery-server
+          image: joelneyo/discovery-server:latest
+          ports:
+            - containerPort: 8761
+          env: # hostname, username, password
+            - name: SPRING_PROFILES_ACTIVE
+              value: k8s
+            - name: SPRING_CONFIG_LOCATION
+              value: "file:/config/"
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: EUREKA_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: eureka-credentials
+                  key: username
+            - name: EUREKA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: eureka-credentials
+                  key: password
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+              readOnly: true
+          args: [ "--spring.config.location=file:/config/application.properties" ]
+      volumes:
+        - name: config-volume
+          configMap:
+            name: discovery-server-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-server
+spec:
+  selector:
+    app: discovery-server
+  ports:
+    - protocol: TCP
+      port: 8761
+      targetPort: 8761
+  type: ClusterIP
