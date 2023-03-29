@@ -14,22 +14,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-## Development
-Command to start
-```
-npx create-react-app ...
-```
-
-## Extensions
-ReactJS snippets
-
-node v18
-npm 8.15
-
-Tailwind CSS shades
-Tailwind CSS linter
-
-Prettier formatter
-
-## Inspiration
-Inspiration from EdRoh [here](https://github.com/ed-roh/react-ecommerce)
