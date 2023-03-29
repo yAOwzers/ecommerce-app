@@ -31,7 +31,7 @@ const CartMenu = () => {
   }, 0);
 
   return (
-    <Box
+    <Box // overlay
       display={isCartOpen ? "block" : "none"} // hide when it is not there
       backgroundColor="rgba(0, 0, 0, 0.4)" // some transparency
       position="fixed"
@@ -42,6 +42,7 @@ const CartMenu = () => {
       top="0"
       overflow="auto"
     >
+      {/* MODAL */}
       <Box
         position="fixed"
         right="0"
@@ -62,6 +63,8 @@ const CartMenu = () => {
           {/* CART LIST */}
           <Box>
             {cart.map((item) => (
+              // requires a unique attribute
+              // strapi gives us the format as 'item.attributes.name'
               <Box key={`${item.attributes.name}-${item.id}`}>
                 <FlexBox p="15px 0">
                   <Box flex="1 1 40%">
@@ -69,10 +72,12 @@ const CartMenu = () => {
                       alt={item?.name}
                       width="123px"
                       height="164px"
-                      src={`http://localhost:2000${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                      // strapi backend is at localhost:1337 but to configure again later
+                      src={`http://localhost:1337${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
                     />
                   </Box>
                   <Box flex="1 1 60%">
+                    {/* ITEM NAME */}
                     <FlexBox mb="5px">
                       <Typography fontWeight="bold">
                         {item.attributes.name}
@@ -86,6 +91,8 @@ const CartMenu = () => {
                       </IconButton>
                     </FlexBox>
                     <Typography>{item.attributes.shortDescription}</Typography>
+
+                    {/* AMOUNT */}
                     <FlexBox m="15px 0">
                       <Box
                         display="flex"
@@ -108,6 +115,7 @@ const CartMenu = () => {
                           <AddIcon />
                         </IconButton>
                       </Box>
+                      {/* PRICE */}
                       <Typography fontWeight="bold">
                         ${item.attributes.price}
                       </Typography>
