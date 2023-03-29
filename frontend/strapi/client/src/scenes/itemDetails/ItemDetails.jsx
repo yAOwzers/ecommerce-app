@@ -113,6 +113,7 @@ const ItemDetails = () => {
           </Box>
           <Box>
             <Box m="20px 0 5px 0" display="flex">
+              {/* NO functionality due to sake of simplicity */}
               <FavoriteBorderOutlinedIcon />
               <Typography sx={{ ml: "5px" }}>ADD TO WISHLIST</Typography>
             </Box>
