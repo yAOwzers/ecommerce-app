@@ -6,6 +6,9 @@ import com.ecommerce.orderservice.dto.OrderRequest;
 import com.ecommerce.orderservice.model.Order;
 import com.ecommerce.orderservice.model.OrderLineItems;
 import com.ecommerce.orderservice.respository.OrderRepository;
+import io.prometheus.client.Counter;
+import io.prometheus.client.Gauge;
+import io.prometheus.client.Histogram;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +26,15 @@ public class OrderService {
   private final OrderRepository orderRepository;
   private final WebClient.Builder webClientBuilder;
 
+  static final Counter failures = Counter.build()
+          .name("http_failures").help("Total number of http requests that fail.")
+          .labelNames("failures").register();
+  static final Gauge inprogressRequests = Gauge.build()
+          .name("inprogress_requests").help("Inprogress requests.").register();
+
+
   public String placeOrder(OrderRequest orderRequest) throws IllegalAccessException {
+    inprogressRequests.inc();
     Order order = new Order();
     order.setOrderNumber(UUID.randomUUID().toString());
 
@@ -53,8 +64,11 @@ public class OrderService {
     if (allProductsInStock) {
       orderRepository.save(order);
       // can send a notification
+      inprogressRequests.dec();
       return "Order Placed Successfully."; // need to send a redirect to the URL
     } else {
+      failures.labels("order_service").inc();
+      inprogressRequests.dec();
       throw new IllegalAccessException("Product is not in stock, try again another time");
     }
 

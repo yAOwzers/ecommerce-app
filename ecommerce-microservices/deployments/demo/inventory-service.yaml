@@ -17,11 +17,6 @@ spec:
       containers:
         - name: inventory-service
           image: joelneyo/inventory-service:latest
-          resources: # for hpa limiting
-            requests:
-              cpu: 500m
-            limits:
-              cpu: 1000m
           ports:
             - containerPort: 80
           env:

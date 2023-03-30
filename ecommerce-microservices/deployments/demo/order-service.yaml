@@ -51,11 +51,6 @@ spec:
       containers: # A list of containers to be run in each pod of the deployment.
         - name: order-service
           image: joelneyo/order-service:latest # The Docker image to be used for this container
-          resources:
-            requests:
-              cpu: 500m
-            limits:
-              cpu: 1000m
           ports: # A list of ports to be exposed by the container.
             - containerPort: 8081
           env: # A list of environment variables to be set in the container
