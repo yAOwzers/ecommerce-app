@@ -41,7 +41,7 @@ const Navbar = () => {
           sx={{ "&:hover": { cursor: "pointer" } }} // change the stypes before :
           color={shades.secondary[500]}
         >
-          ECOMMER
+          ENGOONCLUB
         </Box>
         <Box
           display="flex"

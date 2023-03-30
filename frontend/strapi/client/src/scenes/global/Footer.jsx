@@ -24,7 +24,7 @@ function Footer() {
             mb="30px"
             color={shades.secondary[500]}
           >
-            ECOMMER
+            ENGOONCLUB
           </Typography>
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -61,12 +61,12 @@ function Footer() {
             Contact Us
           </Typography>
           <Typography mb="30px">
-            50 north Whatever Blvd, Washington, DC 10501
+            9 Engineering Drive 1, #07-26 EA, S117575
           </Typography>
           <Typography mb="30px" sx={{ wordWrap: "break-word" }}>
-            Email: mredwardroh@gmail.com
+            Email: engoonclub@gmail.com
           </Typography>
-          <Typography mb="30px">(222)333-4444</Typography>
+          <Typography mb="30px">(+65) 698769876</Typography>
         </Box>
       </Box>
     </Box>
