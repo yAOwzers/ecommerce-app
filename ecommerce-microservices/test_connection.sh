@@ -1,0 +1,1 @@
+kubectl run mysql-client --env="MYSQL_USERNAME=root" --env="MYSQL_PASSWORD=mysecretpassword" --image=mysql:5.7 --rm -it --restart=Never -- mysql -h mysql-service -u${MYSQL_USERNAME} -p${MYSQL_PASSWORD}

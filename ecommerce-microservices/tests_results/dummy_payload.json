@@ -1,0 +1,9 @@
+{
+     "orderLineItemsDtoList": [
+        {
+            "skuCode": "iphone_13",
+            "price": 1200,
+            "quantity": 1
+        }    
+    ]
+}
